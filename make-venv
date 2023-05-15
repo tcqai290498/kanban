@@ -1,0 +1,52 @@
+#!/bin/bash
+
+# parse opts
+OPT_FORCE=''
+OPT_DEV=''
+while test $# -gt 0; do
+    case "$1" in
+        --force) OPT_FORCE="1"
+            ;;
+        --dev) OPT_DEV="1"
+            ;;
+    esac
+    shift
+done
+
+# resolve path to requirements
+export DJANGO_DIR="`realpath .`"
+if [ "$?" != "0" ]; then
+    echo "realpath command failed. On macOS? https://brew.sh/ and: brew install coreutils"
+    exit 1
+fi
+if [ -f "./django/requirements.txt" ]; then
+    export DJANGO_DIR="`realpath ./django`"
+fi
+
+# create and activate venv
+echo "Creating Python virtual environment to $PWD/venv using $DJANGO_DIR/requirements.txt"
+if [ "$OPT_FORCE" == "" ] && [ -f "./venv/bin/python" ]; then
+    echo "venv exists already"
+else
+    rm -rf venv
+    python3 -m venv venv
+fi
+source venv/bin/activate
+
+# install basics
+pip install --upgrade pip
+pip install --upgrade wheel twine setuptools
+pip install -r "$DJANGO_DIR/requirements.txt" --no-cache-dir
+export RV="$?"
+if [ "$OPT_DEV" != "" ] && [ -f "$DJANGO_DIR/requirements-dev.txt" ]; then
+    pip install -r "$DJANGO_DIR/requirements-dev.txt" --no-cache-dir
+fi
+echo "export BASE_DIR=`realpath .`" >> venv/bin/activate
+echo "export DJANGO_DIR=$DJANGO_DIR" >> venv/bin/activate
+echo "export VENV_DIR=`realpath ./venv/bin`" >> venv/bin/activate
+echo "export BASE_DIR=`realpath .`"
+echo "export DJANGO_DIR=$DJANGO_DIR"
+echo "export VENV_DIR=`realpath ./venv/bin`"
+
+# exiting with pip install -r requirements.txt return value
+exit $RV

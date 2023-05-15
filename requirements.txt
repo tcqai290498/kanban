@@ -1,0 +1,9 @@
+Django==4.2                         # was: 4.1.7
+django-extensions==3.2.1
+django-jutil==3.11.14               # was: 3.11.13
+psycopg2-binary==2.9.6 --no-binary 2.9.6  # was: 2.9.5
+openpyxl==3.1.2                     # was: 3.1.1
+python-dotenv==1.0.0                # was: 0.21.1
+Pillow==9.5.0                       # was: 9.4.0
+lxml==4.9.2
+Markdown==3.4.3                     # was: 3.4.1

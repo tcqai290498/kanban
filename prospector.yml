@@ -1,0 +1,39 @@
+strictness: medium
+test-warnings: true
+doc-warnings: false
+
+ignore-paths:
+  - venv
+
+ignore-patterns:
+  - (^|/)migrations(/|$)
+  - (^|/)tests.py(/|$)
+
+pycodestyle:
+  disable:
+    - E501  # line too long
+
+pylint:
+  disable:
+    - suppressed-message
+    - useless-suppression
+    - too-many-locals
+    - imported-auth-user
+    - consider-using-with
+    - unused-variable
+    - broad-exception-raised
+    - import-outside-toplevel
+    - consider-using-f-string
+    - too-many-arguments
+    - unused-import
+    - unused-argument
+    - c-extension-no-member
+    - unused-wildcard-import
+    - too-many-branches
+    - too-many-statements
+    - unspecified-encoding
+    - protected-access
+    - too-many-nested-blocks
+    - django-not-configured
+  options:
+    max-line-length: 160
