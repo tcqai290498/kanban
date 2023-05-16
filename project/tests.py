@@ -4,23 +4,26 @@ from rest_framework.authtoken.models import Token
 
 
 class AuthenticationTestCase(APITestCase):
+    token = ""
+
     def setUp(self):
-        self.user = User.objects.create_user(email="admin@admin.com", password="admin")
+        self.user = User.objects.create_user(username="admin", email="admin@admin.com", password="admin")
 
     def test_login(self):
-        url = "/api/login/"
+        url = "/login/"
         data = {"email": "admin@admin.com", "password": "admin"}
 
         response = self.client.post(url, data)
         self.assertEqual(response.status_code, 200)
         self.assertTrue("token" in response.data)
+        self.token = response.data["token"]
 
     def test_logout(self):
-        url = "/api/logout/"
+        url = "/logout/"
         self.client.force_authenticate(user=self.user)
 
         # Retrieve the authentication token
-        token = Token.objects.get(user=self.user)
+        token, _ = Token.objects.get_or_create(user=self.user)
         headers = {"Authorization": "Token " + token.key}
 
         response = self.client.post(url, headers=headers)
