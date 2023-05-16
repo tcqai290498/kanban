@@ -1,4 +1,5 @@
 from rest_framework import viewsets, status
+from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 
 from process.models import Process
@@ -8,6 +9,7 @@ from task.serializers import TaskSerializer
 
 # Create your views here.
 class TaskViewSet(viewsets.ModelViewSet):
+    permission_classes = [AllowAny]
     serializer_class = TaskSerializer
     queryset = Task.objects.all()
 
