@@ -18,7 +18,7 @@ from django.urls import path, include
 from rest_framework import routers
 
 from process.views import ProcessViewSet
-from project.views import LoginView, LogoutView
+from project.views import LoginAPIView, LogoutAPIView
 from task.views import TaskViewSet
 
 router = routers.DefaultRouter()
@@ -29,6 +29,6 @@ router.register(r"task", TaskViewSet)
 urlpatterns = [
     path("", include(router.urls)),
     path("admin/", admin.site.urls),
-    path("login/", LoginView.as_view(), name="login"),
-    path("logout/", LogoutView.as_view(), name="logout"),
+    path("login/", LoginAPIView.as_view(), name="login"),
+    path("logout/", LogoutAPIView.as_view(), name="logout"),
 ]

@@ -1,36 +1,28 @@
-from rest_framework.test import APITestCase, APIClient
-from django.contrib.auth import get_user_model
-from django.urls import reverse
-
-User = get_user_model()
+from django.contrib.auth.models import User
+from rest_framework.test import APITestCase
+from rest_framework.authtoken.models import Token
 
 
-class LoginTestCase(APITestCase):
+class AuthenticationTestCase(APITestCase):
     def setUp(self):
-        self.user = User.objects.create_user(email="test@example.com", password="testpassword")
+        self.user = User.objects.create_user(email="admin@admin.com", password="admin")
 
     def test_login(self):
-        url = "/login/"
-        data = {"email": "test@example.com", "password": "testpassword"}
-        response = self.client.post(url, data, format="json")
+        url = "/api/login/"
+        data = {"email": "admin@admin.com", "password": "admin"}
+
+        response = self.client.post(url, data)
         self.assertEqual(response.status_code, 200)
-        self.assertIn("access", response.data)
-        self.assertIn("refresh", response.data)
-
-
-class LogoutViewTestCase(APITestCase):
-    def setUp(self):
-        self.client = APIClient()
-        self.user = User.objects.create_user(
-            email="test@example.com",
-            password="testpassword",
-            first_name="John",
-            last_name="Doe",
-        )
-        self.client.force_authenticate(user=self.user)
+        self.assertTrue("token" in response.data)
 
     def test_logout(self):
-        url = reverse("logout")
-        response = self.client.post(url)
-        self.assertEqual(response.status_code, 204)
-        self.assertFalse("Authorization" in self.client.credentials)
+        url = "/api/logout/"
+        self.client.force_authenticate(user=self.user)
+
+        # Retrieve the authentication token
+        token = Token.objects.get(user=self.user)
+        headers = {"Authorization": "Token " + token.key}
+
+        response = self.client.post(url, headers=headers)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.data["detail"], "Logout successful")
