@@ -18,9 +18,10 @@ class LoginAPIView(APIView):
         if user is not None:
             login(request, user)
             token, _ = Token.objects.get_or_create(user=user)
-            return Response({"token": token.key})
+            res = {"data": {"token": token.key}}
         else:
-            return Response({"detail": "Invalid credentials"}, status=401)
+            res = {"data": {"detail": "Invalid credentials"}, "status": 401}
+        return Response(**res)
 
 
 class LogoutAPIView(APIView):

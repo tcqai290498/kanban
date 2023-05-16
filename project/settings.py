@@ -144,7 +144,6 @@ EMAIL_HOST_USER = "apikey"
 EMAIL_HOST_PASSWORD = EMAIL_SENDGRID_API_KEY
 EMAIL_SENDING_ENABLED = parse_bool(os.getenv("EMAIL_SENDING_ENABLED") or "False")
 
-ADMINS = []
 DEFAULT_FROM_EMAIL = "no-reply@example.com"
 SERVER_EMAIL = "no-reply@example.com"
 
@@ -154,7 +153,6 @@ SERVER_EMAIL = "no-reply@example.com"
 
 STATIC_URL = "static/"
 STATIC_ROOT = BASE_DIR / "static"
-STATICFILES_DIRS = []
 STATICFILES_FINDERS = [
     "django.contrib.staticfiles.finders.FileSystemFinder",
     "django.contrib.staticfiles.finders.AppDirectoriesFinder",
@@ -224,6 +222,6 @@ REST_FRAMEWORK = {
         "rest_framework.authentication.TokenAuthentication",
         "rest_framework.authentication.SessionAuthentication",
     ),
-    'DEFAULT_PERMISSION_CLASSES': ('rest_framework.permissions.IsAdminUser',),
+    "DEFAULT_PERMISSION_CLASSES": ("rest_framework.permissions.IsAdminUser",),
     "PAGE_SIZE": 10,
 }
