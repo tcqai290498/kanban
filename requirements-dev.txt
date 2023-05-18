@@ -6,4 +6,3 @@ django-stubs
 djangorestframework-stubs
 pre-commit
 black
-pre-commit
