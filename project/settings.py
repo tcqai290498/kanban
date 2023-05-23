@@ -38,6 +38,8 @@ INSTALLED_APPS = [
     "django_extensions",
     "rest_framework.authtoken",
     "process",
+    "login",
+    "logout",
     "task",
     "corsheaders",
 ]

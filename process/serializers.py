@@ -1,6 +1,6 @@
 from rest_framework import serializers
+from process.models import Process
 from task.serializers import TaskSerializer
-from .models import Process
 
 
 class ProcessSerializer(serializers.ModelSerializer):

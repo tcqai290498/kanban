@@ -1,6 +1,6 @@
 from rest_framework.test import APITestCase, APIClient
 from rest_framework import status
-from .models import Process
+from process.models import Process
 
 
 class ProcessViewSetTestCase(APITestCase):

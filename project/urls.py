@@ -18,7 +18,8 @@ from django.urls import path, include
 from rest_framework import routers
 
 from process.views import ProcessViewSet
-from project.views import LoginAPIView, LogoutAPIView
+from login.views import LoginAPIView
+from logout.views import LogoutAPIView
 from task.views import TaskViewSet
 
 router = routers.DefaultRouter()
